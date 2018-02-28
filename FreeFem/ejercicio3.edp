@@ -1,0 +1,44 @@
+// datos para definir la malla sobre el dominio
+real x0=0, x1=10;    
+real y0=0, y1=1;
+real cx=0.5, cy=0.5;
+
+// para definicion del dominio
+border lado1(t=x0,x1){ x=t; y=y0; label=1;}; 
+border lado2(t=y0,y1){ x=x1; y=t; label=2;};
+border lado3(t=x1,x0){ x=t; y=y1; label=3;};
+border circ(t=pi/2,3*pi/2){ x=0.5*cos(t); y=0.5*(sin(t)+1); label=4;};
+
+mesh Th= buildmesh(lado1(100)+lado2(100)+lado3(100)+circ(100));
+
+plot(Th,ps="malla.eps",wait=true);
+
+// Defino el espacio de elementos finitos
+fespace Vh(Th,P1);
+
+// Funciones y parametros a emplear
+Vh u,v,uu,f,ff; //uu es donde guardamos la variable anterior para calcular el siguiente paso
+// incognita, test, u en el paso anterior, f en cada instante
+real dt = 0.1, mu =0.01;//coeficiente de conduccion termica a mas mejor conduccion
+
+// Definicion del problema
+problem dHeat(u,v) =
+int2d(Th)( 2*u*v + dt*mu*(dx(u)*dx(v) + dy(u)*dy(v)))+ int2d(Th) (dt*mu*(dx(uu)*dx(v) + dy(uu)*dy(v))-2*uu*v - dt*f*v-dt*ff*v);//sin los on lo que indicamos es condiciones neuman =0
+real t = 0; 
+// Comienza con la condici\'on inicial 
+uu =1; 
+for (int m=0;m<=20/dt;m++){ff = (exp((-(x-cx)^2 - (y-cy)^2)/(10*t+0.1)^2))/(10*t+0.1);
+t=t+dt; 
+f = (exp((-(x-cx)^2 - (y-cy)^2)/(10*t+0.1)^2))/(10*t+0.1);
+dHeat;
+plot(u,wait=true,value=true,ps="calorTemp.ps");
+cout <<"instante de tiempo t = " << t; uu = u;}
+
+
+
+
+
+
+
+
+

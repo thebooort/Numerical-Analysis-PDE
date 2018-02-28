@@ -1,0 +1,53 @@
+// datos para definir la malla sobre el rectangulo [x0,x1]x[y0,y1]
+real x0=-5,x1=4;    
+real y0=-3,y1=3;
+int m0=20;
+
+func t4=y^2; 
+func t2=10+10*sin(pi*y); 
+real f3=0,f1=0; 
+
+border suelo(t=-4,3){ x=t; y=-1; label=1;}; 
+border giro(t=-1,1){ x=-t^2+4; y=t; label=2;}; 
+border trozo1(t=3,2){ x=t; y=1; label=3;};
+border recta1(t=2,1){ x=t; y=-2*t+5; label=4;};
+border trozo2(t=1,-1){ x=t; y=3; label=5;};
+border recta2(t=-1,-2){ x=t; y=2*t+5; label=6;};
+border trozo3(t=-2,-4){ x=t; y=1; label=7;};
+border recta3(t=-4,-5){ x=t; y=-2*t-7; label=8;};
+border bajada(t=3,-3){ x=-5; y=t; label=9;};
+border recta4(t=-5,-4){ x=t; y=2*t+7; label=10;};
+
+// mallado
+mesh Th= buildmesh(suelo(m0)+giro(m0)+trozo1(m0)+recta1(m0)+trozo2(m0)+recta2(m0)+trozo3(m0)+recta3(m0)+bajada(m0)+recta4(m0)); 
+
+
+fespace Vh(Th,P1);
+Vh u, v;//una vez que tenemos el espacio Vh, ponemos que u,v van a ser dos funciones del espacio de elementos finitos
+
+// Definimos el problema a estudiar
+problem Poisson(u,v,solver=LU)=
+	int2d(Th)(dx(u)*dx(v)+dy(u)*dy(v))//dy equivale a la parcial
+	-int1d(Th,8)(v*t2)
+	-int1d(Th,9)(v*t2)
+	-int1d(Th,10)(v*t2)	
+	+on(1,u=t4)
+	+on(2,u=t4)
+	+on(3,u=t4)
+	+on(4,u=t4)
+	+on(5,u=t4)
+	+on(6,u=t4)
+	+on(7,u=t4);
+//Resolvemos el problema
+Poisson;
+
+// Mostramos los resultados
+// Representamos la malla y la solucion
+plot(Th,ps="malla.eps",wait=true);
+plot(u, ps="solucion.eps",wait=true);
+// Representamos el flujo calorico
+Vh flujox = -dx(u);
+Vh flujoy = -dy(u);
+plot([flujox,flujoy],ps="flujo.eps",wait=true);
+
+
