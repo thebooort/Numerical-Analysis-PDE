@@ -7,8 +7,8 @@
 % Y valores iniciales
 %u(0,y)=-u(1,y)=sin(\pi y),u(x,0)=-u(x,1)=0
 %
-% Se emplea un esquema de 9 puntos: discretización del operador la-
-%placiano en dimensión dos con una molecula computacional de 9 puntos
+% Se emplea un esquema de 9 puntos: discretización del operador
+% Laplaciano en dimensión dos con una molecula computacional de 9 puntos
 %
 %El programa resuelve directamente el PVF y representa la solucion
 
@@ -18,7 +18,7 @@ b = 1;
 % funcion f(x,y) (evaluable sobre matrices)
 f = @(x,y) 2*pi^2*cos(pi*x).*sin(pi*y);      
 %
-% DEFINIMOS los datos de la discretizacion
+% DEFINIMOS los datos de la discretización
 m = 10;      
 h = (b-a)/(m+1);
 % Puntos del mallado incluidos los contornos
@@ -35,7 +35,7 @@ T = spdiags([4*e -20*e 4*e],[-1 0 1],m,m);
 S = spdiags([e e],[-1 1],m,m);
 U = spdiags([e 4*e e],[-1 0 1],m,m); 
 A = (kron(I,T) + kron(S,U)) /(6* h^2); 
-% definimos el termino independiente que tiene en cuenta 
+% definimos el término independiente que tiene en cuenta 
 % los valores en la frontera.
 Iint = 2:m+1 ;      
 Jint = 2:m+1 ;
@@ -46,11 +46,11 @@ Jext2 = 3:m+2;
 Xint = X(Iint,Jint);       
 Yint = Y(Iint,Jint);
 rhs = f(Xint,Yint);        
-% funcion que determina el valor en la frontera.
+% función que determina el valor en la frontera.
 % Aunque se evalua en todos los nodos, solo se usaran 
-% los de la frontera a continuacion. De nuevo tomamos el valor de la funcion 
-%solucion para m´as exactitud, en caso de tener que usar los datos de las condiciones
-%iniciales basta con evaluar las funciones alli definidas en los terminos especificos
+% los de la frontera a continuación. De nuevo tomamos el valor de la función 
+%solución para más exactitud, en caso de tener que usar los datos de las condiciones
+%iniciales basta con evaluar las funciones allí definidas en los términos específicos
 usoln = -cos(pi*X).*sin(pi*Y);             
 % se incorpora en rhs los valores en la frontera calculados con la formula
 rhs(:,1) = rhs(:,1) - 4*usoln(Iint,1)/(6*h^2)-usoln(Iext1,1)/(6*h^2)-usoln(Iext2,1)/(6*h^2);
@@ -70,7 +70,7 @@ F = reshape(rhs,m*m,1);
 % RESOLVEMOS el SEL:
 uvec = A\F;  
 %
-% REPRESENTAMOS la solucion numerica
+% REPRESENTAMOS la solución numérica
 usoln(Iint,Jint) = reshape(uvec,m,m);
 surf(X,Y,usoln);
 axis([a b a b]);
