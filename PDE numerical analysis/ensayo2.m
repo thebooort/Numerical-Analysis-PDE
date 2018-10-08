@@ -14,10 +14,10 @@ final= @(x) x.*(1.-e.^(x-1))
 %condiciones iniciales
 alpha_1=0;
 beta_1=final(1.1);
-%vector de coeficientes de los pesoso de los bsplines
+%vector de coeficientes de los pesos de los b-splines
 a=zeros(1,N+3);
 
-%calculo de los bsplines
+%cálculo de los b-splines
 b1=zeros(N+3,m+1);
 for n = 1:3
     if (n==1)

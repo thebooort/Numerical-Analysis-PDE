@@ -11,10 +11,10 @@ m=100;
 t=1;
 f = @(x) sin(pi*x);
 final = @(x,y) exp((-pi^2)*y).*sin(pi*x);
-%vector de coeficientes de los pesoso de los bsplines
+%vector de coeficientes de los pesos de los b-splines
 a=zeros(1,N+3);
 
-#calculo de la base de b-splines
+#cálculo de la base de b-splines
 b1=zeros(N+3,m+1);
 for n = 1:3
     if (n==1)

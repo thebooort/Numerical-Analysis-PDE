@@ -1,5 +1,5 @@
 function [t,y]=eulerimplicito(A,t0,tfin,u0,F,m)
-%Resuelve un sistema implicito dado
+%Resuelve un sistema implícito dado
 %
 % Devuelve: 
 % t vector con los nodos

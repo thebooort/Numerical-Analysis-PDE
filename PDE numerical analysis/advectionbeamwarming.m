@@ -1,7 +1,7 @@
 function [x,uint] = advectionbeamwarming(m)
 %
 % Resuelve u_t + a u_x = 0  en [ax,bx] con condiciones de 
-% contorno periodicas empleando el metodo de beam-warmong  modificado 
+% contorno periódicas empleando el metodo de beam-warmong  modificado 
 % con m nodos espaciales interiores.
 
 
@@ -27,28 +27,28 @@ if -nu/2>1 || -nu/2<0
   disp(' ')
 end
 
-% Comprobamos si el ultimo paso llega a tfinal
+% Comprobamos si el último paso llega a tfinal
 if abs(k*nsteps - tfinal) > 1e-5
   disp(' ')
   disp(sprintf('OJO *** k no divide a tfinal, k = %9.5e',k))
   disp(' ')
 end
 
-% En el caso con conciones periodicas se tienen:  
+% En el caso con conciones periódicas se tienen:  
 % m+1 incognitas u(2:m+2)  y   u(1) = u(m+2)
 I = 2:(m+2);   % indices de las incognitas
 
-% Definicion de condiciones iniciales:
+% Definición de condiciones iniciales:
 tn = 0;
 u0 = eta(x);
 u = u0;
 
-% Condiciones de contorno periodicas:
+% Condiciones de contorno periódicas:
 u(1) = u(m+2);   
 u(m+3) = u(2);    
 u(m+4) = u(3);   % OJO: nodo fantasma para cond periodicas
 
-% representamos condicion inicial:
+% Representamos condición inicial:
 clf
 plot(x,u0)
 axis([0 1 -.2 1.2])
@@ -62,12 +62,12 @@ for n = 1:nsteps
   % Lax-Wendroff vectorial:
   u(I) = u(I) - 0.5*nu*(-3*u(I)+4*u(I+1) - u(I+2)) + 0.5*nu^2 * (u(I+2) + u(I) -2*u(I+1));
 
-  % Condiciones periodicas:
+  % Condiciones periódicas:
   u(1) = u(m+2);   
   u(m+3) = u(2);   
   u(m+4) = u(3);   % OJO: nodo fantasma para cond periodicas
 
-  % representamos resultados cada nplot pasos:
+  % Representamos resultados cada nplot pasos:
   if mod(n,nplot)==0 || n==nsteps
     uint = u(1:m+2);  % representamos nodos en el intervalo
     plot(x,uint)
@@ -77,7 +77,7 @@ for n = 1:nsteps
     if n<nsteps, pause(0.02); end;
   end
 
-  tn = tnp;   % para el siguiente paso temporal
+  tn = tnp;   % Para el siguiente paso temporal
 end % del for
 uint = u(1:m+2); 
 end 

@@ -1,4 +1,4 @@
-// datos para definir la malla sobre el rectangulo [x0,x1]x[y0,y1]
+// Datos para definir la malla sobre el rect\'angulo [x0,x1]x[y0,y1]
 real x0=-5,x1=4;    
 real y0=-3,y1=3;
 int m0=20;
@@ -18,7 +18,7 @@ border recta3(t=-4,-5){ x=t; y=-2*t-7; label=8;};
 border bajada(t=3,-3){ x=-5; y=t; label=9;};
 border recta4(t=-5,-4){ x=t; y=2*t+7; label=10;};
 
-// mallado
+// Mallado
 mesh Th= buildmesh(suelo(m0)+giro(m0)+trozo1(m0)+recta1(m0)+trozo2(m0)+recta2(m0)+trozo3(m0)+recta3(m0)+bajada(m0)+recta4(m0)); 
 
 
@@ -38,16 +38,14 @@ problem Poisson(u,v,solver=LU)=
 	+on(5,u=t4)
 	+on(6,u=t4)
 	+on(7,u=t4);
-//Resolvemos el problema
+// Resolvemos el problema
 Poisson;
 
 // Mostramos los resultados
-// Representamos la malla y la solucion
+// Representamos la malla y la soluci\'on
 plot(Th,ps="malla.eps",wait=true);
 plot(u, ps="solucion.eps",wait=true);
-// Representamos el flujo calorico
+// Representamos el flujo cal\'orico
 Vh flujox = -dx(u);
 Vh flujoy = -dy(u);
 plot([flujox,flujoy],ps="flujo.eps",wait=true);
-
-

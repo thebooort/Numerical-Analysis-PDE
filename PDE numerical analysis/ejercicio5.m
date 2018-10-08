@@ -17,7 +17,7 @@ h = (bx-ax)/(m+1);         % h paso espacial
 k = 0.09*h;                  % k paso temporal
 nu = a*k/h;                % numero de Courant
 x = linspace(ax,bx,m+2)';  % Ojo: x(1)=0 y x(m+2)=1
-nsteps = round(tfinal / k);    % numero de pasos temp
+nsteps = round(tfinal / k);    % número de pasos temp
 nplot = 20;       % representamos cada nplot pasos
 
 if abs(nu)>1 
@@ -26,24 +26,24 @@ if abs(nu)>1
   disp(' ')
 end
 
-% Comprobamos si el ultimo paso llega a tfinal
+% Comprobamos si el último paso llega a tfinal
 if abs(k*nsteps - tfinal) > 1e-5
   disp(' ')
   disp(sprintf('OJO *** k no divide a tfinal, k = %9.5e',k))
   disp(' ')
 end
 
-% En el caso con conciones dirichlet tenemos
+% En el caso con conciones Dirichlet tenemos
 I = 2:(m+1);   % indices de las incognitas
 % Definicion de condiciones iniciales:
 tn = 0;
 u0 = eta(x);
 u = u0;
 
-% Condiciones de contorno dirichlet:
+% Condiciones de contorno Dirichlet:
 u(1) = e^tn;   
 u(m+2) = e^tn;   
-% representamos condicion inicial:
+% representamos condición inicial:
 clf
 plot(x,u0)
 axis([-10 2 -2 6])

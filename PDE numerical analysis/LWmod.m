@@ -1,7 +1,7 @@
 function [x,uint] = LWmod(m)
 %
 % Resuelve u_t + a u_x = f  en [ax,bx] con condiciones de 
-% contorno periodicas empleando el metodo de Lax-Wendroff 
+% contorno periódicas empleando el metodo de Lax-Wendroff 
 % con m nodos espaciales interiores.
 
 % Datos del problema
@@ -26,26 +26,26 @@ if abs(nu)>1
   disp(' ')
 end
 
-% Comprobamos si el ultimo paso llega a tfinal
+% Comprobamos si el último paso llega a tfinal
 if abs(k*nsteps - tfinal) > 1e-5
   disp(' ')
   disp(sprintf('OJO *** k no divide a tfinal, k = %9.5e',k))
   disp(' ')
 end
 
-% En el caso con conciones periodicas se tienen:  
+% En el caso con conciones periódicas se tienen:  
 % m+1 incognitas u(2:m+2)  y   u(1) = u(m+2)
 I = 2:(m+2);   % indices de las incognitas
 
-% Definicion de condiciones iniciales:
+% Definición de condiciones iniciales:
 tn = 0;
 u0 = eta(x);
 u = u0;
 
 % Condiciones de contorno periodicas:
 u(1) = u(m+2);   
-u(m+3) = u(2);   % OJO: nodo fantasma para cond periodicas
-% representamos condicion inicial:
+u(m+3) = u(2);   % OJO: nodo fantasma para cond periódicas
+% representamos condición inicial:
 clf
 plot(x,u0)
 axis([-10 2 -.2 1.2])
@@ -59,7 +59,7 @@ for n = 1:nsteps
   % Lax-Wendroff vectorial:
   u(I) = u(I) - 0.5*nu*(u(I+1) - u(I-1)) + 0.5*nu^2 * (u(I-1) - 2*u(I) + u(I+1)) + (k*(exp(tn)-exp(tn-(I.+4*tn).^2)))' + (((-a*k^2)/(4*h))*((exp(tn)-exp(tn-((I+1)+4*tn).^2)).-((exp(tn)-exp(tn-(I+4*tn).^2)))))'+((k/2)*(((exp(tn+k)-exp(tn+k-(I.+(4*tn+4*k)).^2))).-((exp(tn)-exp(tn-(I+4*tn).^2)))))';
 
-  % Condiciones periodicas:
+  % Condiciones periódicas:
   u(1) = u(m+2);   
   u(m+3) = u(2);   % OJO: nodo fantasma para cond periodicas
 

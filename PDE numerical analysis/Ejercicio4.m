@@ -1,6 +1,6 @@
-%EJERCICIO 4 - BARTOLOM� ORTIZ VISO Y MIGUEL L�PEZ P�REZ
+%EJERCICIO 4 - BARTOLOMÉ ORTIZ VISO Y MIGUEL LÓPEZ PÉREZ
 %
-%Resolucion de la ecuacion de Laplace sobre el disco:
+%Resolución de la ecuación de Laplace sobre el disco:
 %
 %\Delta u(x)=0 con x \in D={x_1^2+x_2^2\leq 1} 
 %
@@ -10,8 +10,8 @@
 %en un cuadrado [0,1]\times[0,1] siguiendo las indicaciones del ejercicio
 %8 de la relacion 2.
 %
-%En un paso final se podria adaptar el codigo para compararlo con la solucion 
-%analitica exacta,evaluando esta en el mallado y comparando los resultados en valor absoluto
+%En un paso final se podría adaptar el codigo para compararlo con la solución 
+%analítica exacta,evaluando esta en el mallado y comparando los resultados en valor absoluto
 % como en otros ejercicios a entregar.
 
 
@@ -21,7 +21,7 @@
 a = 0; 
 b = 1; 
 
-% DEFINIMOS los datos de la discretizacion
+% DEFINIMOS los datos de la discretización
 m = 100;     
 h = (b-a)/(m+1);
 
@@ -57,9 +57,9 @@ T(m+1,1)=1;
 %Creamos la matriz A finalmente metiendo las cajas
 D = (kron(I,A) + kron(S,C)+kron(T,C)) ./(h^2); 
 
-#T�rminos independientes
+#Términos independientes
 
-#aproximaci�n del origen
+#aproximación del origen
 aprox=(1/(m+1)).*sum((cos(2.*pi.*x(1:m+1)).^2));
 aprox2=ones(1,m).*aprox;
 
@@ -74,7 +74,7 @@ F = reshape(rhs,[],1);
 % RESOLVEMOS el SEL:
 uvec = D\F;  
 uvec;
-Iint = 2:m+1;       % indices de los nodos interiores en x
+Iint = 2:m+1;       % índices de los nodos interiores en x
 Jint = 1:m+1; 
 #ponemos el valor de los nodos interiores
 usoln(Iint,Jint) = reshape(uvec,m,m+1);

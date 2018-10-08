@@ -12,8 +12,8 @@
 %http://www.amath.washington.edu/~rjl/fdmbook/chapter3  (2007)
 %
 %El programa resuelve directamente el PVF y estudia los errores cometidos
-%a traves de la diferencia con la solucion analitica. Como resultado
-%muestra una representacion del valor absoluto de los errores cometidos
+%a través de la diferencia con la solución analítica. Como resultado
+%muestra una representación del valor absoluto de los errores cometidos
 
 % DEFINIMOS los datos del problema
 a = 0; 
@@ -21,7 +21,7 @@ b = 1;
 % funcion f(x,y) 
 f = @(x,y) 2*pi^2*sin(pi*x).*cos(pi*y);      
 %
-% DEFINIMOS los datos de la discretizacion
+% DEFINIMOS los datos de la discretización
 m = 100;     
 h = (b-a)/(m+1);
 % Puntos del mallado incluidos los contornos
@@ -38,7 +38,7 @@ T = spdiags([e -4*e e],[-1 0 1],m,m);
 S = spdiags([e e],[-1 1],m,m); 
 A = (kron(I,T) + kron(S,I)) / h^2;
 
-% definimos el termino independiente que tiene en cuenta 
+% definimos el término independiente que tiene en cuenta 
 % los valores en la frontera.
 Iint = 2:m+1;       
 Jint = 2:m+1;       
@@ -46,11 +46,11 @@ Xint = X(Iint,Jint);
 Yint = Y(Iint,Jint);
 rhs = f(Xint,Yint);  
        
-% funcion que determina el valor en la frontera.
+% función que determina el valor en la frontera.
 % Aunque se evalua en todos los nodos, solo se usaran 
-% los de la frontera a continuacion. Creo que es mas eficiente y exacto de esta forma
-%Sin embargo dado que tenemos las condiciones iniciales, tambien podrian 
-%utilizarse estas para calcular estos valores
+% los de la frontera a continuación. Creo que es mas eficiente y exacto de esta forma
+% Sin embargo dado que tenemos las condiciones iniciales, también podrían 
+% utilizarse estas para calcular estos valores
 usoln = -cos(pi*Y).*sin(pi*X);               
 % se incorpora en rhs los valores en la frontera
 rhs(:,1) = rhs(:,1) - usoln(Iint,1)/h^2;
@@ -64,7 +64,7 @@ F = reshape(rhs,m*m,1);
 uvec = A\F;  
 %
 % REPRESENTAMOS los errores cometidos mediante la resta de los valores calculados
-%y los valores exactos
+% y los valores exactos
 usoln(Iint,Jint) = reshape(uvec,m,m);
 usoln=usoln.-(-cos(pi*Y).*sin(pi*X));
 A=abs(usoln);
